@@ -14,6 +14,7 @@ class Detail extends React.Component {
     if (location.state) {
       return (
         <div className="detail-data">
+          <img src={location.state.poster} alt={location.state.title} title={location.state.title} />
           <h3>{location.state.title}</h3>
           <h5>{location.state.year}</h5>
           <ul>
