@@ -1,3 +1,3 @@
-# Movie App 2020
+# Movie App
 
-React JS Fundamentals Course 2020
+Movie App made with React
