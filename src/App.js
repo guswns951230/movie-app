@@ -13,7 +13,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path='/movie/:id'>
+        <Route path='/movie_app/:id'>
           <Detail />
         </Route>
         <Route path='/'>

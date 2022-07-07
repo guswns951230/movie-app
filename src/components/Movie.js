@@ -10,7 +10,7 @@ function Movie({ id, title, year, coverImg, summary, genres }) {
       <img src={coverImg} alt={title} className={styles.movie__img} />
       <div>
         <h2 className={styles.movie__title}>
-          <Link to={`/movie/${id}`}>
+          <Link to={`/movie_app/${id}`}>
             {title}
           </Link>
         </h2>
