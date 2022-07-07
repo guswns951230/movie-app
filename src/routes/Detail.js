@@ -1,32 +1,50 @@
-import React from 'react';
-import './Detail.css';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styles from './Detail.module.css';
 
-class Detail extends React.Component {
-  componentDidMount() {
-    const { location, history } = this.props;
-    if (location.state === undefined) {
-      history.push('/');
-    }
-  }
+function Detail() {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [movie, setMovie] = useState([]);
 
-  render() {
-    const { location } = this.props;
-    if (location.state) {
-      return (
-        <div className="detail-data">
-          <img src={location.state.poster} alt={location.state.title} title={location.state.title} />
-          <h3>{location.state.title}</h3>
-          <h5>{location.state.year}</h5>
-          <ul>
-            <li>{location.state.genres}</li>
-          </ul>
-          <p>{location.state.summary}</p>
-        </div>
-      );
-    } else {
-      return null;
-    }
-  }
+  const getMovie = async () => {
+    const json = await (
+      await fetch(`https://yts.mx/api/v2/movie_details.json?movie_id=${id}`)
+    ).json();
+    setMovie(json.data.movie);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getMovie();
+  }, []);
+
+  return (
+    <div className={styles.detail__container}>
+      {loading
+        ? (
+          <h1 className={styles.detail__loader}>Loading</h1>
+        )
+        : (
+          <>
+            <div className={styles.detail__page__title}>Movie Details</div>
+            <div className={styles.detail__movie}>
+              <img src={movie.medium_cover_image} alt={movie.title} className={styles.detail__img} />
+              <div>
+                <h2 className={styles.detail__title}>{movie.title}</h2>
+                <h3 className={styles.detail__year}>{movie.year}</h3>
+                <ul className={styles.detail__genres}>
+                  {movie.genres.map((genre) => (
+                    <li key={genre}>{genre}</li>
+                  ))}
+                </ul>
+                <p>{movie.description_full}</p>
+              </div>
+            </div>
+          </>
+        )}
+    </div>
+  );
 }
 
 export default Detail;
